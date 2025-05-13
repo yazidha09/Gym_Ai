@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Nutrition AI</h1>
+
+    <form method="post">
+        <label for="question">Ask a question:</label>
+        <input type="text" id="question" name="question" required>
+        <button type="submit">Ask</button>
+    </form>
+
+    {% if responseMessage %}
+        <h3>Latest Response:</h3>
+        <p>{{ responseMessage|nl2br }}</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>Chat History</h2>
+    {% for chat in history %}
+        <div style="margin-bottom: 1em;">
+            <strong>You:</strong> {{ chat.question }}<br>
+            <strong>AI:</strong> {{ chat.response|nl2br }}
+        </div>
+    {% else %}
+        <p>No previous questions yet.</p>
+    {% endfor %}
+{% endblock %}

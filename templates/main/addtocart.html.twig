@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your Cart | IronStyle Gymwear{% endblock %}
+
+{% block body %}
+    <!-- Hero Section -->
+    <div class="hero-section position-relative" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; height: 50vh;">
+        <div class="container text-center text-white py-5">
+            <h1 class="display-3 fw-bold mb-4">Your Iron Cart</h1>
+            <p class="lead fs-4">Your premium selections are just a click away from checkout</p>
+        </div>
+    </div>
+
+    <!-- Cart Content -->
+    <div class="container my-5">
+        <div class="row">
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+                <div class="card shadow-lg mb-5">
+                    <div class="card-body">
+                        <h2 class="fw-bold mb-4">Items in Your Cart</h2>
+                        {% if cart|length == 0 %}
+                            <div class="text-center py-5">
+                                <p class="lead">Your cart is empty</p>
+                                <a href="{{ path('home') }}" class="btn btn-dark">Continue Shopping</a>
+                            </div>
+                        {% else %}
+                            <div class="cart-items">
+                                {% for id, item in cart %}
+                                    <div class="cart-item d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ item.image }}" alt="{{ item.name }}" class="img-fluid rounded" style="width: 80px; height: 80px; object-fit: cover;">
+                                            <div class="ms-3">
+                                                <h5 class="fw-bold">{{ item.name }}</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <button class="btn btn-outline-dark btn-sm" onclick="updateQuantity({{ id }}, -1)">-</button>
+                                                    <span class="mx-3">{{ item.quantity }}</span>
+                                                    <button class="btn btn-outline-dark btn-sm" onclick="updateQuantity({{ id }}, 1)">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <p class="h5 text-danger">{{ (item.price * item.quantity)|number_format(2) }} TND</p>
+                                            <a href="{{ path('addtocart', {'remove': id}) }}" class="btn btn-link text-danger"><i class="bi bi-trash"></i> Remove</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Promo Code -->
+                            <div class="mt-4">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="promo-code" placeholder="Enter promo code">
+                                    <button class="btn btn-dark" onclick="applyPromoCode()">Apply</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            {% if cart|length > 0 %}
+            <div class="col-lg-4">
+                <div class="card shadow-lg sticky-top" style="top: 20px;">
+                    <div class="card-body">
+                        <h3 class="fw-bold mb-4">Order Summary</h3>
+                        
+                        {% set subtotal = 0 %}
+                        {% for item in cart %}
+                            {% set subtotal = subtotal + (item.price * item.quantity) %}
+                        {% endfor %}
+                        
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Subtotal</span>
+                            <span>{{ subtotal|number_format(2) }} TND</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Shipping</span>
+                            <span>15.00 TND</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Tax</span>
+                            <span>{{ (subtotal * 0.1)|number_format(2) }} TND</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4">
+                            <h4>Total</h4>
+                            <h4 class="text-danger">{{ (subtotal + 15 + (subtotal * 0.1))|number_format(2) }} TND</h4>
+                        </div>
+                            <a href="{{ path('home') }}" class="btn btn-outline-dark w-100 py-3 text-uppercase">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function updateQuantity(itemId, change) {
+            console.log('Item ID:', itemId, 'Change:', change);
+            // Implement AJAX call to update the quantity in cart dynamically
+        }
+
+        function applyPromoCode() {
+            var promoCode = document.getElementById('promo-code').value;
+            if(promoCode) {
+                console.log('Applying promo code:', promoCode);
+                // Implement promo code logic here (e.g., AJAX request)
+            } else {
+                alert('Please enter a promo code');
+            }
+        }
+    </script>
+{% endblock %}

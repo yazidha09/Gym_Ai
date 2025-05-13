@@ -1,0 +1,179 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign Up - GymForce{% endblock %}
+
+{% block body %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap');
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #111, #1c1c1c);
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    .signup-wrapper {
+        position: relative;
+        z-index: 1;
+    }
+
+    .blur-bg {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: #e63946;
+        opacity: 0.08;
+        border-radius: 50%;
+        top: -150px;
+        right: -100px;
+        filter: blur(120px);
+        z-index: 0;
+    }
+
+    .signup-card {
+        background: rgba(40, 40, 40, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(230, 57, 70, 0.2);
+        padding: 2.5rem;
+        max-width: 450px;
+        width: 100%;
+        margin: auto;
+        animation: slideFade 0.5s ease-in-out;
+        color: #fff;
+    }
+
+    @keyframes slideFade {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .signup-card h2 {
+        color: #e63946;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #ccc;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 10px 15px;
+        background-color: #2b2b2b;
+        border: 1px solid #444;
+        color: #fff;
+    }
+
+    .form-control::placeholder {
+        color: #aaa;
+    }
+
+    .form-control:focus {
+        border-color: #e63946;
+        box-shadow: 0 0 0 0.2rem rgba(230, 57, 70, 0.25);
+        background-color: #2b2b2b;
+        color: #fff;
+    }
+
+    .btn-danger {
+        background-color: #e63946;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 0.75rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #ff4d5a;
+    }
+
+    .login-link a {
+        color: #e63946;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+
+    .alert {
+        border-radius: 0.75rem;
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="blur-bg"></div>
+<div class="container d-flex justify-content-center align-items-center min-vh-100 signup-wrapper">
+    <div class="signup-card">
+        <h2>Create an Account</h2>
+
+        {% if app.flashes('error') %}
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{{ path('signup') }}">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    class="form-control" 
+                    value="{{ username|default('') }}" 
+                    required 
+                    autofocus
+                    placeholder="Enter your username"
+                >
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    class="form-control" 
+                    value="{{ email|default('') }}" 
+                    required
+                    placeholder="you@example.com"
+                >
+            </div>
+
+            <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    class="form-control" 
+                    required
+                    placeholder="••••••••"
+                >
+            </div>
+
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-danger">Register</button>
+            </div>
+
+            <div class="text-center login-link">
+                <small>Already have an account? <a href="{{ path('login') }}">Login here</a></small>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

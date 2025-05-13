@@ -1,0 +1,224 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome to GymForce{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        background: linear-gradient(135deg, #111, #1c1c1c);
+        font-family: 'Inter', sans-serif;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 4rem 1rem;
+        background: radial-gradient(circle at center, #e63946 10%, transparent 80%);
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        color: #ccc;
+    }
+
+    .subscriptions {
+        padding: 3rem 1rem;
+        text-align: center;
+    }
+
+    .subscriptions h2 {
+        color: #e63946;
+        margin-bottom: 2rem;
+    }
+
+    .plans {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+
+    .plan-card {
+        background-color: #2b2b2b;
+        border-radius: 16px;
+        padding: 2rem;
+        width: 280px;
+        box-shadow: 0 0 15px rgba(230, 57, 70, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .plan-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .plan-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.5rem;
+    }
+
+    .plan-price {
+        font-size: 1.2rem;
+        color: #e63946;
+        margin-bottom: 1rem;
+    }
+
+    .plan-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 1.5rem;
+        color: #ccc;
+    }
+
+    .plan-btn {
+        background-color: #e63946;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 10px;
+        color: white;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.3s ease;
+    }
+
+    .plan-btn:hover {
+        background-color: #ff4d5a;
+    }
+
+    .features {
+        padding: 4rem 2rem;
+        background-color: #181818;
+        text-align: center;
+    }
+
+    .features h2 {
+        color: #e63946;
+        margin-bottom: 2rem;
+    }
+
+    .features p {
+        color: #aaa;
+        max-width: 600px;
+        margin: auto;
+    }
+</style>
+
+<div class="hero">
+    <h1>Welcome to GymForce</h1>
+    <p>Your fitness journey starts here. Choose your plan and get started today!</p>
+</div>
+
+<div class="subscriptions">
+    <h2>Our Subscription Plans</h2>
+    <div class="plans">
+        <div class="plan-card">
+            <div class="plan-title">Basic</div>
+            <div class="plan-price">$10 / month</div>
+            <ul class="plan-features">
+                <li>Access to gym equipment</li>
+                <li>Locker room access</li>
+            </ul>
+            <a href="#" class="plan-btn">Join Basic</a>
+        </div>
+
+        <div class="plan-card">
+            <div class="plan-title">Pro</div>
+            <div class="plan-price">$25 / month</div>
+            <ul class="plan-features">
+                <li>All Basic features</li>
+                <li>Group classes</li>
+                <li>Personal coach 2x/month</li>
+            </ul>
+            <a href="#" class="plan-btn">Join Pro</a>
+        </div>
+
+        <div class="plan-card">
+            <div class="plan-title">Elite</div>
+            <div class="plan-price">$40 / month</div>
+            <ul class="plan-features">
+                <li>All Pro features</li>
+                <li>Unlimited personal training</li>
+                <li>Free supplements</li>
+            </ul>
+            <a href="#" class="plan-btn">Join Elite</a>
+        </div>
+    </div>
+</div>
+
+<div class="features">
+    <h2>Why GymForce?</h2>
+    <p>We offer personalized training, cutting-edge equipment, AI-powered nutrition tips, and a community of motivated people like you. Your transformation starts now.</p>
+</div>
+
+<div class="row g-4 px-4 py-5">
+    <!-- Gym Shirt -->
+    <div class="col-md-4">
+        <div class="card product-card h-100 border-0">
+            <div class="badge bg-dark text-white position-absolute" style="top: 10px; right: 10px;">Hot</div>
+            <img src="https://www.teefitfashion.com/cdn/shop/files/BlackFullCompression_1080x.png?v=1744984939" class="card-img-top" alt="Gym Shirt" style="height: 350px; object-fit: cover;">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">Compressed Black Shirt</h5>
+                <div class="rating mb-2 text-warning">
+                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                </div>
+                <p class="h4 text-danger fw-bold">79.99 TND</p>
+                <a href="{{ path('addtocart', {'id': 1}) }}" class="btn btn-dark btn-sm w-100 py-2">ADD TO CART</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yoga Pants -->
+    <div class="col-md-4">
+        <div class="card product-card h-100 border-0">
+            <img src="https://jnbfitness.com/cdn/shop/products/image_c5d65415-fbd0-41fa-943a-d437fd1bc3a8_1024x1024.jpg?v=1549447464" class="card-img-top" alt="Yoga Pants" style="height: 350px; object-fit: cover;">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">Iron Grip with Wrist Support</h5>
+                <div class="rating mb-2 text-warning">
+                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="h4 text-danger fw-bold">129.99 TND</p>
+                <a href="{{ path('addtocart', {'id': 2}) }}" class="btn btn-dark btn-sm w-100 py-2">ADD TO CART</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weightlifting Gloves -->
+    <div class="col-md-4">
+        <div class="card product-card h-100 border-0">
+            <div class="badge bg-danger text-white position-absolute" style="top: 10px; right: 10px;">-20%</div>
+            <img src="https://lsmedia.linker-cdn.net/62267/2025/14047617.jpeg?d=400x400" class="card-img-top" alt="Gym Gloves" style="height: 350px; object-fit: cover;">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">GripMaster Gloves</h5>
+                <div class="rating mb-2 text-warning">
+                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
+                </div>
+                <p class="h4 text-danger fw-bold">
+                    59.99 TND <small class="text-decoration-line-through text-muted">74.99 TND</small>
+                </p>
+                <a href="{{ path('addtocart', {'id': 3}) }}" class="btn btn-dark btn-sm w-100 py-2">ADD TO CART</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Callout Banner -->
+<div class="bg-dark text-white py-5">
+    <div class="container text-center py-4">
+        <h2 class="fw-bold mb-4 text-uppercase">New Collection Dropping Soon</h2>
+        <p class="lead mb-5">Sign up for exclusive early access</p>
+        <div class="d-flex justify-content-center">
+            <input type="email" class="form-control w-50 me-2" placeholder="Your Email">
+            <a href="{{ path('signup') }}" class="btn btn-danger text-uppercase fw-bold">Notify Me</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
