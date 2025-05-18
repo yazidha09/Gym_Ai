@@ -5,9 +5,9 @@
 {% block body %}
 <style>
     body {
-        background: linear-gradient(135deg, #111, #1c1c1c);
+        background: linear-gradient(135deg, #232526 0%, #414345 100%);
         font-family: 'Inter', sans-serif;
-        color: #fff;
+        color: #f5f5f7;
         margin: 0;
         padding: 0;
     }
@@ -15,18 +15,19 @@
     .hero {
         text-align: center;
         padding: 4rem 1rem;
-        background: radial-gradient(circle at center, #e63946 10%, transparent 80%);
+        background: radial-gradient(circle at center, #00bfae 10%, transparent 80%);
     }
 
     .hero h1 {
         font-size: 3rem;
         font-weight: 700;
-        color: #fff;
+        color: #232526;
+        letter-spacing: 2px;
     }
 
     .hero p {
         font-size: 1.2rem;
-        color: #ccc;
+        color: #5e6e73;
     }
 
     .subscriptions {
@@ -35,8 +36,9 @@
     }
 
     .subscriptions h2 {
-        color: #e63946;
+        color: #00bfae;
         margin-bottom: 2rem;
+        letter-spacing: 1px;
     }
 
     .plans {
@@ -47,68 +49,138 @@
     }
 
     .plan-card {
-        background-color: #2b2b2b;
-        border-radius: 16px;
+        background-color: #fff;
+        border-radius: 18px;
         padding: 2rem;
         width: 280px;
-        box-shadow: 0 0 15px rgba(230, 57, 70, 0.1);
+        box-shadow: 0 0 15px rgba(0,191,174,0.08);
         transition: transform 0.3s ease;
+        color: #232526;
     }
 
     .plan-card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 8px 32px rgba(0,191,174,0.13);
     }
 
     .plan-title {
         font-size: 1.5rem;
-        font-weight: 600;
-        color: #fff;
+        font-weight: 700;
+        color: #232526;
         margin-bottom: 0.5rem;
     }
 
     .plan-price {
         font-size: 1.2rem;
-        color: #e63946;
+        color: #00bfae;
         margin-bottom: 1rem;
+        font-weight: 600;
     }
 
     .plan-features {
         list-style: none;
         padding: 0;
         margin-bottom: 1.5rem;
-        color: #ccc;
+        color: #5e6e73;
     }
 
     .plan-btn {
-        background-color: #e63946;
+        background: linear-gradient(90deg, #00bfae 0%, #00796b 100%);
         border: none;
         padding: 0.6rem 1.2rem;
         border-radius: 10px;
         color: white;
-        font-weight: 600;
+        font-weight: 700;
         text-decoration: none;
         transition: background 0.3s ease;
+        letter-spacing: 1px;
     }
 
     .plan-btn:hover {
-        background-color: #ff4d5a;
+        background: linear-gradient(90deg, #00796b 0%, #00bfae 100%);
     }
 
     .features {
         padding: 4rem 2rem;
-        background-color: #181818;
+        background-color: #232526;
         text-align: center;
     }
 
     .features h2 {
-        color: #e63946;
+        color: #00bfae;
         margin-bottom: 2rem;
+        letter-spacing: 1px;
     }
 
     .features p {
-        color: #aaa;
+        color: #b0b8ba;
         max-width: 600px;
         margin: auto;
+    }
+
+    .product-card {
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(0,191,174,0.10);
+        overflow: hidden;
+        transition: transform 0.2s, box-shadow 0.2s;
+        background: #fff;
+        color: #232526;
+    }
+
+    .product-card:hover {
+        transform: translateY(-7px) scale(1.03);
+        box-shadow: 0 8px 32px rgba(0,191,174,0.18);
+    }
+
+    .product-card .card-title {
+        color: #232526;
+    }
+
+    .product-card .btn-dark {
+        border-radius: 8px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        background: linear-gradient(90deg, #00bfae 0%, #00796b 100%);
+        border: none;
+        color: #fff;
+    }
+
+    .product-card .btn-dark:hover {
+        background: linear-gradient(90deg, #00796b 0%, #00bfae 100%);
+        color: #fff;
+    }
+
+    .product-card .badge {
+        font-size: 1rem;
+        padding: 0.5em 1em;
+        border-radius: 12px;
+    }
+
+    .product-card .rating i {
+        font-size: 1.1rem;
+    }
+
+    .product-card .h4.text-danger {
+        color: #00bfae !important;
+    }
+
+    @media (max-width: 991px) {
+        .cart-float { right: 20px; top: 20px; }
+    }
+
+    @media (max-width: 767px) {
+        .plans { flex-direction: column; align-items: center; }
+        .cart-float { right: 10px; top: 10px; }
+    }
+
+    /* Footer styles */
+    .footer {
+        background: #111;
+        color: #aaa;
+        padding: 24px 0 10px 0;
+        text-align: center;
+        letter-spacing: 1px;
+        font-size: 1.1rem;
     }
 </style>
 
@@ -160,54 +232,18 @@
 </div>
 
 <div class="row g-4 px-4 py-5">
-    <!-- Gym Shirt -->
+    {% for id, product in products %}
     <div class="col-md-4">
         <div class="card product-card h-100 border-0">
-            <div class="badge bg-dark text-white position-absolute" style="top: 10px; right: 10px;">Hot</div>
-            <img src="https://www.teefitfashion.com/cdn/shop/files/BlackFullCompression_1080x.png?v=1744984939" class="card-img-top" alt="Gym Shirt" style="height: 350px; object-fit: cover;">
+            <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}" style="height: 350px; object-fit: cover;">
             <div class="card-body text-center">
-                <h5 class="card-title fw-bold">Compressed Black Shirt</h5>
-                <div class="rating mb-2 text-warning">
-                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-                </div>
-                <p class="h4 text-danger fw-bold">79.99 TND</p>
-                <a href="{{ path('addtocart', {'id': 1}) }}" class="btn btn-dark btn-sm w-100 py-2">ADD TO CART</a>
+                <h5 class="card-title fw-bold">{{ product.name }}</h5>
+                <p class="h4 text-danger fw-bold">{{ product.price|number_format(2) }} TND</p>
+                <a href="{{ path('addtocart', {'id': id}) }}" class="btn btn-dark btn-sm w-100 py-2 add-to-cart-btn" data-id="{{ id }}">ADD TO CART</a>
             </div>
         </div>
     </div>
-
-    <!-- Yoga Pants -->
-    <div class="col-md-4">
-        <div class="card product-card h-100 border-0">
-            <img src="https://jnbfitness.com/cdn/shop/products/image_c5d65415-fbd0-41fa-943a-d437fd1bc3a8_1024x1024.jpg?v=1549447464" class="card-img-top" alt="Yoga Pants" style="height: 350px; object-fit: cover;">
-            <div class="card-body text-center">
-                <h5 class="card-title fw-bold">Iron Grip with Wrist Support</h5>
-                <div class="rating mb-2 text-warning">
-                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p class="h4 text-danger fw-bold">129.99 TND</p>
-                <a href="{{ path('addtocart', {'id': 2}) }}" class="btn btn-dark btn-sm w-100 py-2">ADD TO CART</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Weightlifting Gloves -->
-    <div class="col-md-4">
-        <div class="card product-card h-100 border-0">
-            <div class="badge bg-danger text-white position-absolute" style="top: 10px; right: 10px;">-20%</div>
-            <img src="https://lsmedia.linker-cdn.net/62267/2025/14047617.jpeg?d=400x400" class="card-img-top" alt="Gym Gloves" style="height: 350px; object-fit: cover;">
-            <div class="card-body text-center">
-                <h5 class="card-title fw-bold">GripMaster Gloves</h5>
-                <div class="rating mb-2 text-warning">
-                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
-                </div>
-                <p class="h4 text-danger fw-bold">
-                    59.99 TND <small class="text-decoration-line-through text-muted">74.99 TND</small>
-                </p>
-                <a href="{{ path('addtocart', {'id': 3}) }}" class="btn btn-dark btn-sm w-100 py-2">ADD TO CART</a>
-            </div>
-        </div>
-    </div>
+    {% endfor %}
 </div>
 
 <!-- Callout Banner -->
@@ -221,4 +257,35 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.add-to-cart-btn').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                var productId = this.getAttribute('data-id');
+                fetch(`{{ path('addtocart', {'id': 'ID_REPLACE'}) }}`.replace('ID_REPLACE', productId), {
+                    method: 'GET',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update cart badge
+                    var badge = document.querySelector('.cart-badge');
+                    if (badge && data.cartCount !== undefined) {
+                        badge.textContent = data.cartCount;
+                    }
+                    // Show quick feedback
+                    var cartBtn = document.querySelector('.cart-btn');
+                    if(cartBtn) {
+                        cartBtn.classList.add('bg-success');
+                        setTimeout(() => cartBtn.classList.remove('bg-success'), 500);
+                    }
+                });
+            });
+        });
+    });
+</script>
 {% endblock %}

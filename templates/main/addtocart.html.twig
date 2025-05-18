@@ -4,10 +4,10 @@
 
 {% block body %}
     <!-- Hero Section -->
-    <div class="hero-section position-relative" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; height: 50vh;">
+    <div class="hero-section position-relative" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; height: 40vh;">
         <div class="container text-center text-white py-5">
-            <h1 class="display-3 fw-bold mb-4">Your Iron Cart</h1>
-            <p class="lead fs-4">Your premium selections are just a click away from checkout</p>
+            <h1 class="display-3 fw-bold mb-2">Your Cart</h1>
+            <p class="lead fs-4">Review your premium selections and get ready to crush your goals</p>
         </div>
     </div>
 
@@ -16,32 +16,33 @@
         <div class="row">
             <!-- Cart Items -->
             <div class="col-lg-8">
-                <div class="card shadow-lg mb-5">
-                    <div class="card-body">
-                        <h2 class="fw-bold mb-4">Items in Your Cart</h2>
+                <div class="card shadow-lg mb-5 border-0 rounded-4">
+                    <div class="card-body p-5">
+                        <h2 class="fw-bold mb-4 text-uppercase">Cart Items</h2>
                         {% if cart|length == 0 %}
                             <div class="text-center py-5">
                                 <p class="lead">Your cart is empty</p>
-                                <a href="{{ path('home') }}" class="btn btn-dark">Continue Shopping</a>
+                                <a href="{{ path('home') }}" class="btn btn-dark rounded-pill px-4 py-2">Continue Shopping</a>
                             </div>
                         {% else %}
                             <div class="cart-items">
                                 {% for id, item in cart %}
-                                    <div class="cart-item d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                                    <div class="cart-item d-flex justify-content-between align-items-center mb-4 pb-4 border-bottom">
                                         <div class="d-flex align-items-center">
-                                            <img src="{{ item.image }}" alt="{{ item.name }}" class="img-fluid rounded" style="width: 80px; height: 80px; object-fit: cover;">
-                                            <div class="ms-3">
-                                                <h5 class="fw-bold">{{ item.name }}</h5>
-                                                <div class="d-flex align-items-center">
-                                                    <button class="btn btn-outline-dark btn-sm" onclick="updateQuantity({{ id }}, -1)">-</button>
-                                                    <span class="mx-3">{{ item.quantity }}</span>
-                                                    <button class="btn btn-outline-dark btn-sm" onclick="updateQuantity({{ id }}, 1)">+</button>
+                                            <img src="{{ item.image }}" alt="{{ item.name }}" class="rounded-3 shadow-sm me-4" style="width: 100px; height: 100px; object-fit: cover; background: #f8f9fa;">
+                                            <div>
+                                                <h5 class="mb-1 fw-semibold">{{ item.name }}</h5>
+                                                <span class="badge bg-dark mb-2">{{ item.price|number_format(2) }} TND</span>
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <button class="btn btn-outline-dark btn-sm rounded-circle" onclick="updateQuantity({{ id }}, -1)"><i class="bi bi-dash"></i></button>
+                                                    <span class="mx-3 fs-5">{{ item.quantity }}</span>
+                                                    <button class="btn btn-outline-dark btn-sm rounded-circle" onclick="updateQuantity({{ id }}, 1)"><i class="bi bi-plus"></i></button>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="text-end">
-                                            <p class="h5 text-danger">{{ (item.price * item.quantity)|number_format(2) }} TND</p>
-                                            <a href="{{ path('addtocart', {'remove': id}) }}" class="btn btn-link text-danger"><i class="bi bi-trash"></i> Remove</a>
+                                            <p class="h5 text-danger mb-2">{{ (item.price * item.quantity)|number_format(2) }} TND</p>
+                                            <a href="{{ path('addtocart', {'remove': id}) }}" class="btn btn-link text-danger px-0"><i class="bi bi-trash"></i> Remove</a>
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -49,10 +50,11 @@
 
                             <!-- Promo Code -->
                             <div class="mt-4">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="promo-code" placeholder="Enter promo code">
-                                    <button class="btn btn-dark" onclick="applyPromoCode()">Apply</button>
+                                <div class="input-group input-group-lg">
+                                    <input type="text" class="form-control rounded-start-pill" id="promo-code" placeholder="Enter promo code">
+                                    <button class="btn btn-dark rounded-end-pill px-4" onclick="applyPromoCode()">Apply</button>
                                 </div>
+                                <div id="promo-feedback" class="form-text text-success mt-2" style="display:none;"></div>
                             </div>
                         {% endif %}
                     </div>
@@ -62,15 +64,13 @@
             <!-- Order Summary -->
             {% if cart|length > 0 %}
             <div class="col-lg-4">
-                <div class="card shadow-lg sticky-top" style="top: 20px;">
-                    <div class="card-body">
-                        <h3 class="fw-bold mb-4">Order Summary</h3>
-                        
+                <div class="card shadow-lg sticky-top border-0 rounded-4" style="top: 20px;">
+                    <div class="card-body p-5">
+                        <h3 class="fw-bold mb-4 text-uppercase">Order Summary</h3>
                         {% set subtotal = 0 %}
                         {% for item in cart %}
                             {% set subtotal = subtotal + (item.price * item.quantity) %}
                         {% endfor %}
-                        
                         <div class="d-flex justify-content-between mb-3">
                             <span>Subtotal</span>
                             <span>{{ subtotal|number_format(2) }} TND</span>
@@ -88,31 +88,34 @@
                             <h4>Total</h4>
                             <h4 class="text-danger">{{ (subtotal + 15 + (subtotal * 0.1))|number_format(2) }} TND</h4>
                         </div>
-                            <a href="{{ path('home') }}" class="btn btn-outline-dark w-100 py-3 text-uppercase">Continue Shopping</a>
+                        <form action="{{ path('checkout') }}" method="post">
+                            <button type="submit" class="btn btn-danger w-100 py-3 text-uppercase rounded-pill mb-2">Checkout</button>
+                        </form>
+                        <a href="{{ path('home') }}" class="btn btn-outline-dark w-100 py-2 text-uppercase rounded-pill">Continue Shopping</a>
                     </div>
                 </div>
             </div>
             {% endif %}
         </div>
     </div>
-
-
 {% endblock %}
 
 {% block javascripts %}
     <script>
         function updateQuantity(itemId, change) {
-            console.log('Item ID:', itemId, 'Change:', change);
             // Implement AJAX call to update the quantity in cart dynamically
+            alert('This is a demo. Quantity update is not implemented.');
         }
 
         function applyPromoCode() {
             var promoCode = document.getElementById('promo-code').value;
+            var feedback = document.getElementById('promo-feedback');
             if(promoCode) {
-                console.log('Applying promo code:', promoCode);
-                // Implement promo code logic here (e.g., AJAX request)
+                feedback.style.display = 'block';
+                feedback.textContent = 'Promo code "' + promoCode + '" applied! (Demo)';
             } else {
-                alert('Please enter a promo code');
+                feedback.style.display = 'block';
+                feedback.textContent = 'Please enter a promo code.';
             }
         }
     </script>

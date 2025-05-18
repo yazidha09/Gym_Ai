@@ -1,3 +1,15 @@
 body {
     background-color: skyblue;
 }
+
+h1.mb-4 {
+    color: #1a237e; /* Deep blue for contrast */
+    text-shadow: 1px 1px 4px #fff, 0 2px 8px #b3c6ff;
+}
+
+input.form-control[type="text"] {
+    background-color: #f8f9fa; /* Light gray for visibility */
+    color: #212529; /* Dark text for contrast */
+    border: 1px solid #1a237e;
+    box-shadow: 0 1px 4px rgba(26,35,126,0.08);
+}

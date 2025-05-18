@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard | Product Management{% endblock %}
+
+{% block body %}
+<style>
+  h1.mb-4 {
+    color:rgb(1, 163, 160); /* Deep blue for contrast */
+    
+  }
+  input.form-control[type="text"] {
+    background-color: #f8f9fa; /* Light gray for visibility */
+    color: #212529; /* Dark text for contrast */
+    border: 1px solid #1a237e;
+    box-shadow: 0 1px 4px rgba(26,35,126,0.08);
+  }
+    input.form-control[type="number"] {
+    background-color: #f8f9fa; /* Light gray for visibility */
+    color: #212529; /* Dark text for contrast */
+    border: 1px solid #1a237e;
+    box-shadow: 0 1px 4px rgba(26,35,126,0.08);
+  }
+    input.form-control[type="url"] {
+    background-color: #f8f9fa; /* Light gray for visibility */
+    color: #212529; /* Dark text for contrast */
+    border: 1px solid #1a237e;
+    box-shadow: 0 1px 4px rgba(26,35,126,0.08);
+  }
+</style>
+<div class="container my-5">
+    <h1 class="mb-4">Product Dashboard</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Add New Product</h4>
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price (TND)</label>
+                            <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image URL</label>
+                            <input type="url" class="form-control" id="image" name="image" required>
+                        </div>
+                        <button type="submit" class="btn btn-dark">Add Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Current Products</h4>
+                    <ul class="list-group">
+                        {% for id, product in products %}
+                            <li class="list-group-item d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ product.image }}" alt="{{ product.name }}" style="width: 50px; height: 50px; object-fit: cover;" class="me-3 rounded">
+                                    <div>
+                                        <strong>{{ product.name }}</strong><br>
+                                        <span class="text-danger">{{ product.price|number_format(2) }} TND</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a href="?edit={{ id }}" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                    <a href="?delete={{ id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                                </div>
+                            </li>
+                        {% else %}
+                            <li class="list-group-item">No products found.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if app.request.query.get('edit') %}
+        {% set editId = app.request.query.get('edit') %}
+        {% set editProduct = products[editId] %}
+        <div class="modal fade show" style="display:block; background:rgba(0,0,0,0.5);" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" action="?edit={{ editId }}">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Product</h5>
+                            <a href="{{ path('dashboard') }}" class="btn-close"></a>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="edit_name" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="edit_name" name="edit_name" value="{{ editProduct.name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_price" class="form-label">Price (TND)</label>
+                                <input type="number" step="0.01" class="form-control" id="edit_price" name="edit_price" value="{{ editProduct.price }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_image" class="form-label">Image URL</label>
+                                <input type="url" class="form-control" id="edit_image" name="edit_image" value="{{ editProduct.image }}" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Save Changes</button>
+                            <a href="{{ path('dashboard') }}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>document.body.classList.add('modal-open');</script>
+    {% endif %}
+
+    <div class="card mt-5">
+        <div class="card-body">
+            <h4 class="card-title mb-3">Registered Users</h4>
+            {% if users is defined and users|length > 0 %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info">No users found.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
