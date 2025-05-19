@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container py-5" style="max-width: 800px;">
+    <h1 class="mb-4 fw-bold" style="color: #00bfae;">About GymNut</h1>
+    <div class="card shadow-lg mb-4">
+        <div class="card-body p-4" style="background: #f8f9fa; border-radius: 1rem;">
+            <h2 class="fw-bold mb-3" style="color: #00796b;">Our Mission</h2>
+            <p>GymNut is dedicated to empowering fitness enthusiasts and athletes with premium gear, expert nutrition advice, and a seamless online experience. Our mission is to help you achieve your health and fitness goals with confidence and style.</p>
+            <h2 class="fw-bold mt-4 mb-3" style="color: #00796b;">Meet the Owner</h2>
+            <div class="d-flex align-items-center mb-3">
+                <img src="https://instagram.fcmn2-2.fna.fbcdn.net/v/t51.2885-19/118206011_314299366581432_3704488888888888888_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.fcmn2-2.fna.fbcdn.net&_nc_cat=111&_nc_ohc=EXAMPLEID&edm=ABfd0MgBAAAA&ccb=7-5&oh=00_AfEXAMPLEHASH&oe=EXAMPLETIME" alt="Mohamed Yazid Hammadi" class="rounded-circle me-3" width="70" height="70">
+                <div>
+                    <h5 class="mb-1">Mohamed Yazid Hammadi</h5>
+                    <p class="mb-0 text-muted">Founder &amp; Fitness Enthusiast</p>
+                    <a href="https://www.instagram.com/_yaz__id_h/" target="_blank" class="text-decoration-none" style="color: #00bfae;"><i class="bi bi-instagram"></i> Instagram</a>
+                </div>
+            </div>
+            <p>Mohamed Yazid Hammadi is passionate about fitness, technology, and helping others unlock their full potential. With years of experience in both the gym and the tech world, he created GymNut to bridge the gap between quality products and smart, AI-powered nutrition guidance.</p>
+            <h2 class="fw-bold mt-4 mb-3" style="color: #00796b;">What You Can Do Here</h2>
+            <ul>
+                <li>Shop for the latest and best gym apparel and accessories</li>
+                <li>Get personalized nutrition advice from our AI-powered chat</li>
+                <li>Manage your cart and orders with ease</li>
+                <li>Access exclusive content and tips on fitness and nutrition</li>
+            </ul>
+            <h2 class="fw-bold mt-4 mb-3" style="color: #00796b;">Why Choose GymNut?</h2>
+            <ul>
+                <li>Premium, handpicked products</li>
+                <li>Modern, user-friendly shopping experience</li>
+                <li>Secure checkout and user privacy</li>
+                <li>Expert support and AI-driven guidance</li>
+            </ul>
+            <div class="mt-4">
+                <p>Thank you for choosing GymNut. We are committed to supporting your journey—every rep, every meal, every day.</p>
+                <p class="text-muted small">&copy; {{ "now"|date("Y") }} GymNut. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

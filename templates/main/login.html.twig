@@ -3,128 +3,113 @@
 
 {% block body %}
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap');
-
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap');
     body {
-        font-family: 'Inter', sans-serif;
-        background: linear-gradient(135deg, #111, #1c1c1c);
-        position: relative;
-        overflow-x: hidden;
+        font-family: 'Montserrat', 'Inter', sans-serif;
+        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+        min-height: 100vh;
+        margin: 0;
     }
-
     .login-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         position: relative;
-        z-index: 1;
     }
-
-    .blur-bg {
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        background: #e63946;
-        opacity: 0.08;
-        border-radius: 50%;
-        top: -150px;
-        left: -100px;
-        filter: blur(120px);
-        z-index: 0;
-    }
-
     .login-card {
-        background: rgba(40, 40, 40, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 16px;
-        box-shadow: 0 15px 35px rgba(230, 57, 70, 0.2);
-        padding: 2.5rem;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(44, 62, 80, 0.18);
+        padding: 2.7rem 2.2rem 2.2rem 2.2rem;
         max-width: 420px;
         width: 100%;
         margin: auto;
-        animation: slideFade 0.5s ease-in-out;
-        color: #fff;
+        animation: fadeIn 0.7s;
+        color: #222;
     }
-
-    @keyframes slideFade {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
     }
-
     .login-card h2 {
-        color: #e63946;
+        color: #1976d2;
         font-weight: 700;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.7rem;
         text-align: center;
+        letter-spacing: 1px;
     }
-
     .form-label {
         font-weight: 600;
-        color: #ccc;
+        color: #1976d2;
+        margin-bottom: 0.3rem;
     }
-
     .form-control {
         border-radius: 10px;
-        padding: 10px 15px;
-        background-color: #2b2b2b;
-        border: 1px solid #444;
-        color: #fff;
+        padding: 12px 16px;
+        background-color: #f4f8fb;
+        border: 1.5px solid #b6c6e3;
+        color: #222;
+        font-size: 1rem;
+        margin-bottom: 0.7rem;
+        transition: border 0.2s, box-shadow 0.2s;
     }
-
-    .form-control::placeholder {
-        color: #aaa;
-    }
-
     .form-control:focus {
-        border-color: #e63946;
-        box-shadow: 0 0 0 0.2rem rgba(230, 57, 70, 0.25);
-        background-color: #2b2b2b;
-        color: #fff;
+        border-color: #1976d2;
+        box-shadow: 0 0 0 0.15rem rgba(25, 118, 210, 0.13);
+        background-color: #f4f8fb;
+        color: #222;
     }
-
+    .form-control::placeholder {
+        color: #a0a0a0;
+        opacity: 1;
+    }
     .btn-primary {
-        background-color: #e63946;
+        background: linear-gradient(90deg, #1976d2 60%, #00bfae 100%);
         border: none;
         border-radius: 12px;
-        font-weight: 600;
-        padding: 0.75rem;
-        transition: background-color 0.3s ease;
+        font-weight: 700;
+        padding: 0.85rem;
+        font-size: 1.1rem;
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+        transition: background 0.2s, box-shadow 0.2s;
     }
-
     .btn-primary:hover {
-        background-color: #ff4d5a;
+        background: linear-gradient(90deg, #00bfae 60%, #1976d2 100%);
     }
-
+    .register-link {
+        margin-top: 1.2rem;
+        text-align: center;
+    }
     .register-link a {
-        color: #e63946;
-        font-weight: 500;
+        color: #1976d2;
+        font-weight: 600;
         text-decoration: none;
+        transition: color 0.2s;
     }
-
     .register-link a:hover {
+        color: #00bfae;
         text-decoration: underline;
     }
-
     .alert {
         border-radius: 0.75rem;
-        font-size: 0.9rem;
+        font-size: 0.98rem;
+        margin-bottom: 1.1rem;
+        background: #ffeaea;
+        color: #d32f2f;
+        border: 1px solid #f8bbd0;
+        padding: 0.8rem 1rem;
     }
 </style>
-
-<div class="blur-bg"></div>
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
+<div class="login-wrapper">
     <div class="login-card">
         <h2>Login to GymForce</h2>
-
         {% if app.flashes('error') %}
             {% for message in app.flashes('error') %}
                 <div class="alert alert-danger">{{ message }}</div>
             {% endfor %}
         {% endif %}
-
         <form method="post" action="{{ path('login') }}">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -139,7 +124,6 @@
                     placeholder="you@example.com"
                 >
             </div>
-
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <input 
@@ -151,12 +135,10 @@
                     placeholder="••••••••"
                 >
             </div>
-
             <div class="d-grid mb-3">
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
-
-            <div class="text-center register-link">
+            <div class="register-link">
                 <small>Don't have an account? <a href="{{ path('signup') }}">Register here</a></small>
             </div>
         </form>

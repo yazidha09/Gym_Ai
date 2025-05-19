@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order Management{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="mb-4">Order Management</h1>
+    {% if orders|length == 0 %}
+        <div class="alert alert-info">No orders found.</div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Shipped At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.userId }}</td>
+                        <td>
+                            <ul class="mb-0">
+                                {% for item in order.items %}
+                                    <li>{{ item.name }} x{{ item.quantity }} <span class="text-muted">({{ item.price|number_format(2) }} TND)</span></li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td class="fw-bold text-danger">{{ order.total|number_format(2) }} TND</td>
+                        <td>
+                            {% if order.status == 'pending' %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% elseif order.status == 'shipped' %}
+                                <span class="badge bg-success">Shipped</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ order.status|capitalize }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ order.createdAt }}</td>
+                        <td>{{ order.shippedAt ? order.shippedAt : '-' }}</td>
+                        <td>
+                            {% if order.status == 'pending' %}
+                                <a href="{{ path('orders', {'ship': order.id}) }}" class="btn btn-sm btn-success">Mark as Shipped</a>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
