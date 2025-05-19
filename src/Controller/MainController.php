@@ -160,7 +160,7 @@ private function askNutritionAI(string $question): string
     public function logout(SessionInterface $session): Response
     {
         $session->remove('user');
-        return $this->redirectToRoute('home');
+        return $this->render('main/logout.html.twig');
     }
     #[Route('/addtocart/{id}', name: 'addtocart')]
     public function addtocart(Request $request, int $id = null): Response
@@ -278,9 +278,11 @@ private function askNutritionAI(string $question): string
         }
 
         $users = $em->getRepository(User::class)->findAll();
+        $purchases = $session->get('purchases', []);
         return $this->render('main/dashboard.html.twig', [
             'products' => $products,
-            'users' => $users
+            'users' => $users,
+            'purchases' => $purchases
         ]);
     }
 
@@ -327,6 +329,19 @@ public function checkout(Request $request, SessionInterface $session): Response
         'shippedAt' => null
     ];
     $session->set('orders', $orders);
+    // Record purchases
+    $purchases = $session->get('purchases', []);
+    foreach ($cart as $productId => $item) {
+        $purchases[] = [
+            'userId' => $userId,
+            'productId' => $productId,
+            'productName' => $item['name'],
+            'quantity' => $item['quantity'],
+            'price' => $item['price'],
+            'purchasedAt' => date('Y-m-d H:i:s')
+        ];
+    }
+    $session->set('purchases', $purchases);
     $session->set('cart', []);
     $this->addFlash('success', 'Order placed successfully!');
     return $this->redirectToRoute('orders');

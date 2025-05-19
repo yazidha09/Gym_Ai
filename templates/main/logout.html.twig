@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Logout - GymNut{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow p-4">
+                <h2 class="mb-4">You have been logged out</h2>
+                <p class="mb-4">Thank you for visiting GymNut. We hope to see you again soon!</p>
+                <a href="{{ path('login') }}" class="btn btn-primary">Log In Again</a>
+                <a href="{{ path('home') }}" class="btn btn-outline-secondary ms-2">Return to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

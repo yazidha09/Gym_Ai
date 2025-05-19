@@ -155,6 +155,11 @@
                 <li class="nav-item"><a class="nav-link{% if app.request.get('_route') == 'ai' %} active{% endif %}" href="{{ path('ai') }}">AI Nutrition</a></li>
                 <li class="nav-item"><a class="nav-link{% if app.request.get('_route') == 'about' %} active{% endif %}" href="{{ path('about') }}">About</a></li>
                 {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="{{ path('dashboard') }}" title="Account">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-7 8-7s8 3 8 7"/></svg>
+                        </a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="#">Hi, {{ app.user.email|split('@')[0]|capitalize }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ path('logout') }}">Logout</a></li>
                 {% else %}
